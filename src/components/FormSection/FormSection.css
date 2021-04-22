@@ -1,0 +1,21 @@
+.file-upload {
+  padding: 0 10rem;
+}
+
+.form {
+  padding: 70px 0 5px;
+}
+
+.heading {
+  text-align: center;
+}
+.summary {
+  font-size: medium;
+  font-weight: 700;
+  list-style-type: none;
+  line-height: 3rem;
+  text-align: justify;
+}
+.update {
+  color: green;
+}
