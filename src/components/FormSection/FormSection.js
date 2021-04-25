@@ -1,12 +1,25 @@
-import React, { useState,useEffect } from 'react';
+import React, {useEffect } from 'react';
 import {Alert,Button,Card,Container,Col,Form,InputGroup,Row} from 'react-bootstrap';
 import './FormSection.css'
 
-const FormSection = ({files,setFiles,paymentPeriod,setPaymentPeriod,handleSubmit,alert,setAlert})=>{
-    const [curLabel,setCurLabel]  = useState('');
-    const [prevLabel,setPrevLabel] = useState(' ');
-    const [current,setCurrent] = useState(' ')
-    const [previous,setPrevious] = useState('')
+const FormSection = (
+    {
+        files,
+        setFiles,
+        paymentPeriod,
+        setPaymentPeriod,
+        handleSubmit,
+        alert,
+        setAlert,
+        curLabel,
+        setCurLabel,
+        prevLabel,
+        setPrevLabel,
+        current,
+        setCurrent,
+        previous,
+        setPrevious
+    })=>{
     
     const processingPeriod = paymentPeriod.slice(0,4);
     const heading = [
@@ -16,18 +29,23 @@ const FormSection = ({files,setFiles,paymentPeriod,setPaymentPeriod,handleSubmit
         paymentPeriod,
         'Total-1',
         processingPeriod,
-        'Employee Account',
+        'Employee_Account',
         'Total'
         ]
+   
     
-    
-
     const getSummary = (file)=>{
-       if(file){
-           setCurrent(files[0])
-           setPrevious(files[1])
+       if(!file.length) reset()
+        if(file[0]?.id === "current-schedule"){
+            setCurrent(file[0])
+            setPrevious(file[1])
+        } else {
+           setPrevious(file[0]) 
+           setCurrent(file[1])
+        } 
+        
        }
-    }
+    
 
     const dateFormatter = (e)=>{
         const payP = e.target.value.split('-')
@@ -36,11 +54,15 @@ const FormSection = ({files,setFiles,paymentPeriod,setPaymentPeriod,handleSubmit
 
     const handleChange = (e)=>{
         e.target.id === "current-schedule" ? setCurLabel(e.target.value) : setPrevLabel(e.target.value)
-        setFiles([...files,e.target.files[0]])
+        e.target.files[0].id = e.target.id
+        setFiles([...files,e.target.files[0]
+        ])
     }
-
+    const reset = ()=>{
+        setCurrent(' ')
+        setPrevious(' ')
+    }
    
-
     useEffect(()=>{
         getSummary(files)
         if(alert){
@@ -48,6 +70,7 @@ const FormSection = ({files,setFiles,paymentPeriod,setPaymentPeriod,handleSubmit
                 setAlert(false)
             },1500)
         }
+       
     })
 
     return(
@@ -125,7 +148,7 @@ const FormSection = ({files,setFiles,paymentPeriod,setPaymentPeriod,handleSubmit
                         <Form.Text as="h4" className="heading">Summary</Form.Text>
                         <ul className="summary">
                             <li>Payment Period:   <span className="update">
-                                {paymentPeriod ? paymentPeriod : null}
+                                {paymentPeriod  ? paymentPeriod : null}
                                 </span>
                                 </li>
                             <li>Current Schedule:  <span className="update">

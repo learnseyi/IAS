@@ -1,72 +1,42 @@
 import React,{useState,useEffect} from 'react';
-import {Container,Table} from 'react-bootstrap';
+import {Button,Card,Container,Table} from 'react-bootstrap';
 import {ProcessNew} from './ProceesNew'
+import {Processed} from '../Functions/Processed';
+import './ProcessedSchedule.css'
 
 
-
-
-
-const ProcessedSchedule = ({resolvedPromise})=>{
-    console.log(resolvedPromise)
+const ProcessedSchedule = ({handleReset,resolvedPromise})=>{
    const [pre,setPre] = useState([])
    const [cur,setCur] = useState([])
    const [update,setUpdate] = useState([])
+
+   //calling the save function to write updated schedule to a new file
+const handleSave = ()=>{
+  Processed(update)
+
+}
    
-
-
-    const getInfo = (resolvedPromise)=>{
-        setTimeout(()=>{
-            if(resolvedPromise.length){
-                setCur(resolvedPromise[0])
-                 setPre(resolvedPromise[1])
+//sorting resolved promises into current and previous schedules
+const getInfo = (resolvedPromise)=>{
+    setTimeout(()=>{
+        if(resolvedPromise.length){
+            setCur(resolvedPromise[0])
+            setPre(resolvedPromise[1])
              }
-        },1000)
+    },1000)
        
-    }
-
-    const createSchedule =(pre,cur)=>{
-        const list = []
-        pre?.forEach(emp =>{
-            cur.forEach(cont =>{
-                if(emp.Name === cont.name){
-                    emp["Total"] = cont.contribution[0]
-                    emp["Total-1"] = cont.contribution[1]
-                    list.push(emp)
-                        }
-                    })
-                })
-                return list;
-    }
-
+}
    
     getInfo(resolvedPromise)
-useEffect(()=>{
-    ProcessNew(cur.value,pre.value)
-    .then(data => createSchedule(pre.value,data))
-    .then(info => setUpdate(info))
-    .catch(error => console.log(error))
-},[cur,pre])
-  
+    useEffect(()=>{
+        ProcessNew(pre.value,cur.value)
+        .then(data => setUpdate(data.slice(2)))
+    },[pre,cur])
+
     return(
-        <Container className="pt-5">
-        {/* <Table striped bordered hover size="sm" >
-            <thead>
-                <tr className="bg-primary text-white text-center">
-                    {pre.value ? Object.keys(pre.value[0]).map((label,i)=>{
-                        return <th key={i}>{label}</th>
-                    }): null}
-                </tr>
-            </thead>
-            <tbody>
-                
-                    {pre.value ? pre.value.slice(2).map((info,i)=>{
-                          return <tr key={i}className='text-center'>
-                               {Object.keys(info).map((key,j)=><td key={j}>{info[key]}</td>)}
-                                </tr>
-                    }): null}
-            </tbody>
-        </Table>
-        <hr></hr>
+        <Container className="pt-5"fluid>
+            <Card className="display-container">
+            {/* <h3>{new Date("03/25/2015").toLocaleDateString()} for {paymentPeriod}</h3> */}
         <Table striped bordered hover size="sm" >
             <thead>
                 <tr className="bg-primary text-white text-center">
@@ -75,25 +45,7 @@ useEffect(()=>{
                     }): null}
                 </tr>
             </thead>
-            <tbody>
-                
-                    {cur.value ? cur.value.slice(2).map((info,i)=>{
-                          return <tr key={i}className='text-center'>
-                               {Object.keys(info).map((key,j)=><td key={j}>{info[key]}</td>)}
-                                </tr>
-                    }): null}
-            </tbody>
-        </Table> */}
-        <hr></hr>
-        <Table striped bordered hover size="sm" >
-            <thead>
-                <tr className="bg-primary text-white text-center">
-                    {pre.value ? Object.keys(pre.value[0]).map((label,i)=>{
-                        return <th key={i}>{label}</th>
-                    }): null}
-                </tr>
-            </thead>
-            <tbody>
+            <tbody className='table-body'>
                 
                     {update ? update.map((info,i)=>{
                           return <tr key={i}className='text-center'>
@@ -102,6 +54,11 @@ useEffect(()=>{
                     }): null}
             </tbody>
         </Table>
+        </Card>
+        <div className="d-flex justify-content-center">
+        <Button className="mr-3 px-5" onClick={handleSave} variant="primary" >Download</Button>
+            <Button className="ml-3 px-5"onClick={handleReset} variant="primary">Reset</Button>
+        </div>
         </Container>
     )
 }

@@ -3,19 +3,33 @@ import MainNav from './MainNav';
 import FormSection from '../FormSection/FormSection'
 import ProcessedSchedule from '../ProcessedSchedule/ProcessedSchedule';
 import {processFile} from '../Functions/ProcessFile';
-// import RedirectPage from './RedirectPage';
+import '../ProcessedSchedule/ProcessedSchedule.css'
 import Spinner from './Spinner';
 
 const Main = ()=>{
+    const [curLabel,setCurLabel]  = useState('');
+    const [prevLabel,setPrevLabel] = useState(' ');
+    const [current,setCurrent] = useState(' ')
+    const [previous,setPrevious] = useState('')
     const [files,setFiles] = useState([]);
     const [paymentPeriod,setPaymentPeriod] = useState('');
     const [alert,setAlert] =useState(false)
     const [resolvedPromise,setResolvedPromise] = useState([]);
     const [loading,setLoading] = useState(false)
-    // let history = useHistory()
-    // let location = useLocation()
+    const [style,setStyle] = useState("holder")
+    const [style2,setStyle2] = useState("holder2")
     
     
+    const handleReset = ()=>{
+        // setLoading(false)
+        setStyle('holder')
+        setStyle2('holder2')
+        setCurLabel('')
+        setPrevLabel('')
+        setPaymentPeriod('')
+        setFiles([])
+        console.log(loading)
+    }
 
         const handleSubmit =(files,heading)=>{
             const tempHolding = []
@@ -42,25 +56,39 @@ const Main = ()=>{
         if(loading){
             setTimeout(()=>{
                 setLoading(false)
+                setStyle("holder2")
+                setStyle2("holder")
             },1500)
         }
     })
     return(
         <React.Fragment>
-            
              <MainNav/>
-            
+             
+            <div className={style}>
             {loading ? <Spinner/> : <FormSection 
              alert={alert}
+             curLabel={curLabel}
+             setCurLabel={setCurLabel}
              setAlert={setAlert}
              files={files} 
              setFiles={setFiles}
              paymentPeriod={paymentPeriod}
+             prevLabel={prevLabel}
+             setPrevLabel={setPrevLabel}
              setPaymentPeriod={setPaymentPeriod}
              handleSubmit={handleSubmit}
+             current={current}
+             setCurrent={setCurrent}
+             previous={previous}
+             setPrevious={setPrevious}
            
              />}
-             <ProcessedSchedule resolvedPromise={resolvedPromise}/>
+             </div>
+             <div className={style2}>
+             <ProcessedSchedule handleReset={handleReset} resolvedPromise={resolvedPromise}/>
+             </div>
+             
         </React.Fragment>
        
     )

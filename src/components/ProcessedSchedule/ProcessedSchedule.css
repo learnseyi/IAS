@@ -1,0 +1,26 @@
+.processed {
+  /* position: relative; */
+  z-index: 100;
+}
+.holder {
+  padding-top: 2rem;
+  position: absolute;
+  width: 100%;
+  visibility: visible;
+  z-index: -1;
+  transition: all 2s ease-in-out;
+}
+
+.holder2 {
+  position: absolute;
+  width: 100%;
+  visibility: hidden;
+  z-index: -1;
+}
+.display-container {
+  padding: 20px;
+}
+.table-body {
+  height: 50vh;
+  overflow: scroll;
+}
