@@ -30,7 +30,7 @@ const getInfo = (resolvedPromise)=>{
     getInfo(resolvedPromise)
     useEffect(()=>{
         ProcessNew(pre.value,cur.value)
-        .then(data => setUpdate(data.slice(2)))
+        .then(data => setUpdate(data.slice(1)))
     },[pre,cur])
 
     return(
