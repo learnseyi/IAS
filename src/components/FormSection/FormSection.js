@@ -28,8 +28,8 @@ const FormSection = (
         'Employer_Account',
         paymentPeriod,
         'Total-1',
-        processingPeriod,
         'Employee_Account',
+        processingPeriod,
         'Total'
         ]
    
