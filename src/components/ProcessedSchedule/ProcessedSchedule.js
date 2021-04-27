@@ -5,7 +5,7 @@ import {Processed} from '../Functions/Processed';
 import './ProcessedSchedule.css'
 
 
-const ProcessedSchedule = ({handleReset,resolvedPromise})=>{
+const ProcessedSchedule = ({resolvedPromise})=>{
    const [pre,setPre] = useState([])
    const [cur,setCur] = useState([])
    const [update,setUpdate] = useState([])
@@ -57,7 +57,7 @@ const getInfo = (resolvedPromise)=>{
         </Card>
         <div className="d-flex justify-content-center">
         <Button className="mr-3 px-5" onClick={handleSave} variant="primary" >Download</Button>
-            <Button className="ml-3 px-5"onClick={handleReset} variant="primary">Reset</Button>
+            <Button className="ml-3 px-5"onClick={()=>window.location.reload()} variant="primary">Reset</Button>
         </div>
         </Container>
     )

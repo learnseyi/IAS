@@ -20,16 +20,7 @@ const Main = ()=>{
     const [style2,setStyle2] = useState("holder2")
     
     
-    const handleReset = ()=>{
-        // setLoading(false)
-        setStyle('holder')
-        setStyle2('holder2')
-        setCurLabel('')
-        setPrevLabel('')
-        setPaymentPeriod('')
-        setFiles([])
-        console.log(loading)
-    }
+   
 
         const handleSubmit =(files,heading)=>{
             const tempHolding = []
@@ -86,7 +77,7 @@ const Main = ()=>{
              />}
              </div>
              <div className={style2}>
-             <ProcessedSchedule handleReset={handleReset} resolvedPromise={resolvedPromise}/>
+             <ProcessedSchedule  resolvedPromise={resolvedPromise}/>
              </div>
              
         </React.Fragment>
